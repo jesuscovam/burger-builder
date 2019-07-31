@@ -26,9 +26,8 @@ class BurgerBuilder extends Component {
   };
 
   updatePurchase = nextIngredients => {
-    const ingredients = { ...nextIngredients };
-    const purchasableQtty = Object.keys(ingredients)
-      .map(igKey => ingredients[igKey])
+    const purchasableQtty = Object.keys(nextIngredients)
+      .map(igKey => nextIngredients[igKey])
       .reduce((acc, el) => acc + el, 0);
 
     this.setState({ purchasable: purchasableQtty > 0 });
@@ -71,11 +70,12 @@ class BurgerBuilder extends Component {
     for (let key in disabledInfo) {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
+
     return (
       <Aux>
-        {/* <Modal show={this.state.purchasing}>
+        <Modal show={this.state.purchasing}>
           <OrderSummary ingredients={this.state.ingredients} />
-        </Modal> */}
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           add={this.addIngredient}

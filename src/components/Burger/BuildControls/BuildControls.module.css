@@ -3,9 +3,9 @@
   background-color: #cf8f2e;
   display: flex;
   flex-flow: column;
-  text-align: center;
+  align-items: center;
   box-shadow: 0 2px 1px #ccc;
-  margin-bottom: auto;
+  margin: auto;
   padding: 10px 0;
 }
 
@@ -13,8 +13,6 @@
   background-color: #dad735;
   outline: none;
   cursor: pointer;
-  align-self: center;
-  width: 200px;
   border: 1px solid #966909;
   color: #966909;
   font-family: inherit;
