@@ -10,6 +10,9 @@ class Checkout extends Component {
       bacon: 1
     }
   };
+  componentDidMount() {
+    const query = new URLSearchParams(this.props.search);
+  }
   render() {
     return (
       <div>

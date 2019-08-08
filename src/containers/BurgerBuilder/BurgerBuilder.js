@@ -24,6 +24,7 @@ class BurgerBuilder extends Component {
   };
 
   async componentDidMount() {
+    console.log(this.props);
     const ingredients = await axios.get(
       "https://burger-builder-b3638.firebaseio.com/ingredients.json"
     );
@@ -77,29 +78,42 @@ class BurgerBuilder extends Component {
 
   continuePurchaseHandler = async () => {
     // alert("Thank you!/ Gracias!/ Danke!/ Merci!/ Arigato!");
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Jesus Cova",
-        address: {
-          street: "Calle del fuego",
-          zipCode: 77710,
-          country: "Mexico"
-        },
-        email: "jesuscovam@gmail.com"
-      },
-      deliveryMethod: "fastest"
-    };
-    try {
-      const post = await axios.post("/order.json", order);
-      console.log(post);
-      this.setState({ loading: false, purchasing: false });
-    } catch (error) {
-      this.setState({ loading: false, purchasing: false });
-      console.log(error);
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: "Jesus Cova",
+    //     address: {
+    //       street: "Calle del fuego",
+    //       zipCode: 77710,
+    //       country: "Mexico"
+    //     },
+    //     email: "jesuscovam@gmail.com"
+    //   },
+    //   deliveryMethod: "fastest"
+    // };
+    // try {
+    //   const post = await axios.post("/order.json", order);
+    //   console.log(post);
+    //   this.setState({ loading: false, purchasing: false });
+    // } catch (error) {
+    //   this.setState({ loading: false, purchasing: false });
+    //   console.log(error);
+    // }
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
     }
+    const queryString = queryParams.join("&");
+    this.props.history.push({
+      pathname: "/checkout",
+      search: `?${queryString}`
+    });
   };
   render() {
     const disabledInfo = { ...this.state.ingredients };
