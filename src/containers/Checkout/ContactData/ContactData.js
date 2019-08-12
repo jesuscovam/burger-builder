@@ -12,7 +12,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeHolder: "Your name"
+          placeholder: "Your name"
         },
         value: ""
       },
@@ -20,7 +20,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeHolder: "Your Street"
+          placeholder: "Your Street"
         },
         value: ""
       },
@@ -28,7 +28,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeHolder: "ZIP"
+          placeholder: "ZIP"
         },
         value: ""
       },
@@ -36,7 +36,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "text",
-          placeHolder: "Country"
+          placeholder: "Country"
         },
         value: ""
       },
@@ -44,7 +44,7 @@ class ContactData extends Component {
         elementType: "input",
         elementConfig: {
           type: "email",
-          placeHolder: "Your email"
+          placeholder: "Your email"
         },
         value: ""
       },
@@ -86,12 +86,22 @@ class ContactData extends Component {
   };
 
   render() {
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      });
+    }
     let form = (
       <form>
-        <Input elementType="..." value="..." elementConfig="..." />
-        <Input type="email" name="email" placeholder="Your Mail" />
-        <Input type="text" name="street" placeholder="Your Street" />
-        <Input type="text" name="postal" placeholder="Your Postal Code" />
+        {formElementsArray.map(elementArray => (
+          <Input
+            key={elementArray.id}
+            elementType={elementArray.config.elementType}
+            elementConfig={elementArray.config.elementConfig}
+          />
+        ))}
         <Button btnType="Success" click={this.submitHandler}>
           Order
         </Button>
