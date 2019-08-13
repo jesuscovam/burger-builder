@@ -52,7 +52,7 @@ class ContactData extends Component {
         elementType: "select",
         elementConfig: {
           options: [
-            { value: "fastest", display: "Express" },
+            { value: "express", display: "Express" },
             { value: "regular", display: "Regular" }
           ]
         },
@@ -70,9 +70,14 @@ class ContactData extends Component {
   submitHandler = async event => {
     event.preventDefault();
     this.setState({ loading: true });
+    let customerValues = {};
+    Object.keys(this.state.orderForm).map(
+      key => (customerValues[key] = this.state.orderForm[key].value)
+    );
     const order = {
       ingredients: this.props.ingredients,
-      price: this.props.price
+      price: this.props.price,
+      customerData: customerValues
     };
     try {
       const post = await axios.post("/order.json", order);
@@ -83,6 +88,20 @@ class ContactData extends Component {
       this.setState({ loading: false });
       console.log(error);
     }
+  };
+
+  inputChangeHandler = (e, inputIdentifier) => {
+    const updatedOrderForm = {
+      ...this.state.orderForm
+    };
+    const updatedEvent = {
+      ...updatedOrderForm[inputIdentifier]
+    };
+
+    updatedEvent.value = e.target.value;
+
+    updatedOrderForm[inputIdentifier] = updatedEvent;
+    this.setState({ orderForm: updatedOrderForm });
   };
 
   render() {
@@ -100,6 +119,8 @@ class ContactData extends Component {
             key={elementArray.id}
             elementType={elementArray.config.elementType}
             elementConfig={elementArray.config.elementConfig}
+            value={elementArray.config.value}
+            changed={e => this.inputChangeHandler(e, elementArray.id)}
           />
         ))}
         <Button btnType="Success" click={this.submitHandler}>
